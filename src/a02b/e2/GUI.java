@@ -20,11 +20,12 @@ public class GUI extends JFrame {
         main.add(BorderLayout.CENTER, panel);
         var check = new JButton("Check > Restart");
         check.addActionListener(e -> {
-            logic.checkDiagonal();
             if(cells.keySet().stream().allMatch(b -> b.isEnabled())) {
-                logic.getDisabledPositions().forEach(p -> cells.entrySet().stream()
-                    .filter(en -> en.getValue().equals(p))
-                    .forEach(en -> en.getKey().setEnabled(false)));
+                if (logic.checkDiagonal()) {
+                    logic.getDisabledPositions().forEach(p -> cells.entrySet().stream()
+                        .filter(en -> en.getValue().equals(p))
+                        .forEach(en -> en.getKey().setEnabled(false)));
+                }
             } else {
                 logic.reset();
                 cells.keySet().forEach(k -> {
