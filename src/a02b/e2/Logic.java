@@ -6,7 +6,7 @@ public interface Logic {
 
     boolean hit(Pair<Integer, Integer> pair);
 
-    boolean check();
+    boolean checkDiagonal();
 
     Set<Pair<Integer, Integer>> getDisabledPositions();
 

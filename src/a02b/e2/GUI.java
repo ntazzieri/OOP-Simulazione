@@ -14,24 +14,26 @@ public class GUI extends JFrame {
         logic = new LogicImpl(size);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(100*size, 100*size);
-        
         JPanel main = new JPanel(new BorderLayout());
         JPanel panel = new JPanel(new GridLayout(size,size));
         this.getContentPane().add(main);
         main.add(BorderLayout.CENTER, panel);
         var check = new JButton("Check > Restart");
         check.addActionListener(e -> {
-            cells.keySet().forEach(k -> k.setEnabled(true));
-            if(logic.check()) {
+            logic.checkDiagonal();
+            if(cells.keySet().stream().allMatch(b -> b.isEnabled())) {
                 logic.getDisabledPositions().forEach(p -> cells.entrySet().stream()
                     .filter(en -> en.getValue().equals(p))
                     .forEach(en -> en.getKey().setEnabled(false)));
             } else {
                 logic.reset();
+                cells.keySet().forEach(k -> {
+                    k.setEnabled(true);
+                    k.setText(" ");
+                });
             }
         }); 
-        main.add(BorderLayout.SOUTH, new JButton("Go"));
-        
+        main.add(BorderLayout.SOUTH, check);
         ActionListener al = new ActionListener(){
             public void actionPerformed(ActionEvent e){
         	    var button = (JButton)e.getSource();
@@ -41,10 +43,8 @@ public class GUI extends JFrame {
                 } else {
                     button.setText(" ");
                 }
-                   //button.setText(""+position);
             }
         };
-                
         for (int i=0; i<size; i++){
             for (int j=0; j<size; j++){
                 final JButton jb = new JButton(" ");
