@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public class LogicImpl implements Logic {
 
+    private static final long N_STARS = 3L;
     private final Set<Pair<Integer, Integer>> starPos;
     private final Set<Pair<Integer, Integer>> disabledPos;
     private final int size;
@@ -32,7 +33,7 @@ public class LogicImpl implements Logic {
         final var possiblePosition = starPos.stream()
             .collect(Collectors.groupingBy(e -> e.getX() - e.getY()))
             .entrySet().stream()
-            .filter(e -> e.getValue().stream().count() == 3L)
+            .filter(e -> e.getValue().stream().count() == N_STARS)
             .map(e -> e.getKey())
             .findFirst();
         if(possiblePosition.isPresent()) {
